@@ -1,25 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
+import { Routes, Route, useNavigate, createSearchParams } from 'react-router-dom'
+import { Navbar } from './Componants/Navbar';
+import { Cart } from './Pages/Cart'
+import { Product } from './Pages/Product';
+import { Products } from './Pages/Products';
+import { PageNotFound } from './Pages/PageNotFound';
 
 function App() {
+  const navigate = useNavigate()
+  const onSearch = (showQuery) => {
+    navigate(`/?${createSearchParams({ q: showQuery })}`)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar onSearch={onSearch} />
+      <Routes>
+        <Route path="/" element={<Products />} />
+        <Route path="/product/:productId" element={<Product />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </>
   );
 }
 
-export default App;
+export { App };
